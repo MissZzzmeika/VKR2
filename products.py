@@ -82,29 +82,26 @@ sales_1985 = df[df['EstablishmentYear'] == 1985].groupby('ProductType')['OutletS
 st.write(sales_1985)
 
 # Гистограмма объема выручки
- # Получаем данные для продуктов, основанных в 1985 году
-    product_sales1985 = df[df['EstablishmentYear'] == 1985].groupby('ProductType')['OutletSales'].sum().sort_values(ascending=False).head(12)
+# Индексы и значения для построения графика
+iproduct_sales1985 = product_sales1985.index
+vproduct_sales1985 = product_sales1985.values
 
-    # Индексы и значения для построения графика
-    iproduct_sales1985 = product_sales1985.index
-    vproduct_sales1985 = product_sales1985.values
+# Построение горизонтального столбчатого графика
+fig, ax = plt.subplots()
+ax.barh(iproduct_sales1985, vproduct_sales1985, color='grey')
 
-    # Построение горизонтального столбчатого графика
-    fig, ax = plt.subplots()
-    ax.barh(iproduct_sales1985, vproduct_sales1985, color='grey')
+# Добавление заголовка и меток осей
+ax.set_title('Объем выручки')
+ax.set_xlabel('Сумма продаж')
+ax.set_ylabel('Категории товаров')
+ax.set_xticks(rotation=0)
 
-    # Добавление заголовка и меток осей
-    ax.set_title('Объем выручки')
-    ax.set_xlabel('Сумма продаж')
-    ax.set_ylabel('Категории товаров')
-    ax.set_xticks(rotation=0)
+# Добавление текста с значениями на столбцы
+for i in range(len(vproduct_sales1985)):
+ax.text(vproduct_sales1985[i], i, round(vproduct_sales1985[i]), ha='left', va='center')
 
-    # Добавление текста с значениями на столбцы
-    for i in range(len(vproduct_sales1985)):
-        ax.text(vproduct_sales1985[i], i, round(vproduct_sales1985[i]), ha='left', va='center')
-
-    # Отображение графика
-    st.pyplot(fig)
+# Отображение графика
+st.pyplot(fig)
 
 # Круговая диаграмма объема выручки
 st.header('Круговая диаграмма объема выручки')
